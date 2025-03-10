@@ -1,11 +1,13 @@
 import os
 from openai import OpenAI
 
+# Store your OpenRouter API key in the environment variable OPENROUTER_API_KEY
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=os.environ.get("OPENROUTER_API_KEY"),
 )
 
+# Free models can be accessed from here: https://openrouter.ai/models?max_price=0
 model = "deepseek/deepseek-r1:free"
 
 messages = [
