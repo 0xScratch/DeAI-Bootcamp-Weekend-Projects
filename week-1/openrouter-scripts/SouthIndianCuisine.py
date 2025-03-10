@@ -60,7 +60,7 @@ def suggest_dish(ingredients):
     messages.append(
         {
             "role": "user",
-            "content": f"Suggest a North Indian dish I can make with these ingredients: {', '.join(ingredients)}",
+            "content": f"Suggest a South Indian dish I can make with these ingredients: {', '.join(ingredients)}",
         }
     )
     process_request()
