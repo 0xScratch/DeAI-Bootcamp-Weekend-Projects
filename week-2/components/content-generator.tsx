@@ -16,6 +16,28 @@ const styles = [
   { value: "riddle", label: "Riddle", emoji: "🧩" },
 ]
 
+const topics = [
+  { value: "work", label: "Work", emoji: "📆" },
+  { value: "people", label: "People", emoji: "👨" },
+  { value: "animals", label: "Animals", emoji: "🐱" },
+  { value: "food", label: "Food", emoji: "🍔" },
+  { value: "television", label: "Television", emoji: "📺" },
+]
+
+const tones = [
+  { value: "witty", label: "Witty", emoji: "🤣" },
+  { value: "sarcastic", label: "Sarcastic", emoji: "😏" },
+  { value: "silly", label: "Silly", emoji: "🤓" },
+  { value: "dark", label: "Dark", emoji: "😈" },
+  { value: "goofy", label: "Goofy", emoji: "🤪" },
+]
+
+const types = [
+  { value: "pun", label: "Pun", emoji: "" },
+  { value: "knock-knock", label: "Knock-Knock", emoji: "" },
+  { value: "story", label: "Story", emoji: "" },
+]
+
 const languages = [
   { value: "english", label: "English", flag: "🇺🇸" },
   { value: "spanish", label: "Spanish", flag: "🇪🇸" },
@@ -25,8 +47,10 @@ const languages = [
 
 export default function ContentGenerator() {
   const [context, setContext] = useState("")
-  const [style, setStyle] = useState("dad-jokes")
+  const [topic, setTopic] = useState("work")
+  const [type, setType] = useState("pun")
   const [language, setLanguage] = useState("english")
+  const [tone, setTone] = useState("witty")
   const [creativityLevel, setCreativityLevel] = useState([5])
   const [result, setResult] = useState("")
   const [isGenerating, setIsGenerating] = useState(false)
@@ -41,7 +65,7 @@ export default function ContentGenerator() {
         story: "Once upon a time in a digital realm, a developer created a content generator...",
         riddle: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?",
       }
-      setResult(responses[style as keyof typeof responses] || "Generated content will appear here.")
+      setResult(responses[topic as keyof typeof responses] || "Generated content will appear here.")
       setIsGenerating(false)
     }, 1500)
   }
@@ -57,23 +81,23 @@ export default function ContentGenerator() {
             onChange={(e) => setContext(e.target.value)}
           />
           <p className="text-sm text-gray-500 mt-2">
-            Example: • Style: Dad Jokes • Context: Why did the bicycle fall over?
+            Example: • Tone: Witty • Context: Why did the bicycle fall over?
           </p>
         </FormStep>
 
-        <FormStep number={2} title="Choose a Style">
-          <Select value={style} onValueChange={setStyle}>
+        <FormStep number={2} title="Choose a Topic">
+          <Select value={topic} onValueChange={setTopic}>
             <SelectTrigger className="w-full">
               <SelectValue>
-                {styles.find((s) => s.value === style)?.emoji} {styles.find((s) => s.value === style)?.label}
+                {topics.find((t) => t.value === topic)?.emoji} {topics.find((t) => t.value === topic)?.label}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              {styles.map((s) => (
-                <SelectItem key={s.value} value={s.value}>
+              {topics.map((t) => (
+                <SelectItem key={t.value} value={t.value}>
                   <span className="flex items-center">
-                    <span className="mr-2">{s.emoji}</span>
-                    {s.label}
+                    <span className="mr-2">{t.emoji}</span>
+                    {t.label}
                   </span>
                 </SelectItem>
               ))}
@@ -81,7 +105,48 @@ export default function ContentGenerator() {
           </Select>
         </FormStep>
 
-        <FormStep number={3} title="Choose Language">
+
+        <FormStep number={3} title="Choose Tone">
+          <Select value={tone} onValueChange={setTone}>
+            <SelectTrigger className="w-full">
+              <SelectValue>
+                {tones.find((l) => l.value === tone)?.emoji} {tones.find((l) => l.value === tone)?.label}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {tones.map((l) => (
+                <SelectItem key={l.value} value={l.value}>
+                  <span className="flex items-center">
+                    <span className="mr-2">{l.emoji}</span>
+                    {l.label}
+                  </span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </FormStep>
+
+        <FormStep number={4} title="Choose Type">
+          <Select value={type} onValueChange={setType}>
+            <SelectTrigger className="w-full">
+              <SelectValue>
+                  {tones.find((l) => l.value === type)?.label}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {types.map((l) => (
+                <SelectItem key={l.value} value={l.value}>
+                  <span className="flex items-center">
+                    <span className="mr-2">{l.emoji}</span>
+                    {l.label}
+                  </span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </FormStep>
+
+        <FormStep number={5} title="Choose Language">
           <Select value={language} onValueChange={setLanguage}>
             <SelectTrigger className="w-full">
               <SelectValue>
@@ -102,7 +167,7 @@ export default function ContentGenerator() {
         </FormStep>
 
         <FormStep
-          number={4}
+          number={6}
           title="Choose Creativity Level, 5 for optimal balance, 10 for maximum creativity."
           subtitle={`(${creativityLevel[0]}/10)`}
         >
