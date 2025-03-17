@@ -8,14 +8,6 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { useChat } from "@ai-sdk/react"
-// import { Sparkles } from "lucide-react"
-
-const styles = [
-  { value: "dad-jokes", label: "Dad Jokes", emoji: "😂" },
-  { value: "poetry", label: "Poetry", emoji: "📝" },
-  { value: "story", label: "Story", emoji: "📚" },
-  { value: "riddle", label: "Riddle", emoji: "🧩" },
-]
 
 const tones = [
   { value: "witty", label: "Witty", emoji: "🤣" },
@@ -40,35 +32,15 @@ const languages = [
 
 export default function ContentGenerator() {
   const [context, setContext] = useState("")
-  const [topic, setTopic] = useState("work")
   const [type, setType] = useState("pun")
   const [language, setLanguage] = useState("english")
   const [tone, setTone] = useState("witty")
   const [creativityLevel, setCreativityLevel] = useState([5])
-  const [result, setResult] = useState("")
-  const [isGenerating, setIsGenerating] = useState(false)
 
   const { messages, handleSubmit, status, setInput } = useChat()
 
-  // const handleGenerate = async () => {
-  //   setIsGenerating(true)
-  //   // Simulate API call
-  //   setTimeout(() => {
-  //     const responses: { [key: string]: string } = {
-  //       "dad-jokes": "I'm afraid for the calendar. Its days are numbered!",
-  //       poetry: "Whispers of wind through autumn leaves,\nDancing in the golden light of eve.",
-  //       story: "Once upon a time in a digital realm, a developer created a content generator...",
-  //       riddle: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?",
-  //     }
-  //     setResult(responses[topic as keyof typeof responses] || "Generated content will appear here.")
-  //     setIsGenerating(false)
-  //   }, 1500)
-  // }
-
   useEffect(() => {
-    setInput(`Create me a joke with the following context: ${context} in ${language} language with ${tone} tone and ${type} type. Creativity level: ${creativityLevel[0]}/10`)
-    // console.log(context)
-    // console.log(creativityLevel[0]/10)
+    setInput(`Create me a joke with the following context: ${context} in ${language} language with ${tone} tone and ${type} type. Creativity level: ${creativityLevel[0]}/10, Dont include any extra text, just deliver the joke nothing more.`)
   }, [context, type, language, tone, creativityLevel])
 
   return (
@@ -79,35 +51,12 @@ export default function ContentGenerator() {
             placeholder="Enter your text here."
             className="min-h-[120px] resize-none"
             value={context}
-            // value={input}
             onChange={(e) => setContext(e.target.value)}
-          // onChange={handleInputChange}
           />
           <p className="text-sm text-gray-500 mt-2">
             Example: • Tone: Witty • Context: Why did the bicycle fall over?
           </p>
         </FormStep>
-
-        {/* <FormStep number={2} title="Choose a Topic">
-          <Select value={topic} onValueChange={setTopic}>
-            <SelectTrigger className="w-full">
-              <SelectValue>
-                {topics.find((t) => t.value === topic)?.emoji} {topics.find((t) => t.value === topic)?.label}
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {topics.map((t) => (
-                <SelectItem key={t.value} value={t.value}>
-                  <span className="flex items-center">
-                    <span className="mr-2">{t.emoji}</span>
-                    {t.label}
-                  </span>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </FormStep> */}
-
 
         <FormStep number={2} title="Choose Tone">
           <Select value={tone} onValueChange={setTone}>
@@ -191,17 +140,9 @@ export default function ContentGenerator() {
           className="bg-indigo-600 hover:bg-indigo-700 text-white px-6"
           disabled={status == "streaming"}
         >
-          {/* <Sparkles className="mr-2 h-4 w-4" /> */}
           Generate ✨
         </Button>
       </div>
-
-      {/* {result && (
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg border">
-          <h3 className="font-medium mb-2">Generated Content:</h3>
-          <p className="whitespace-pre-line">{result}</p>
-        </div>
-      )} */}
       <div className="mt-6 p-4 bg-gray-50 rounded-lg border">
         {messages
           .filter(message => message.role === 'assistant')

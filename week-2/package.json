@@ -17,6 +17,7 @@
     "ai": "^4.1.61",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^16.4.7",
     "lucide-react": "^0.482.0",
     "next": "15.2.2",
     "react": "^19.0.0",
