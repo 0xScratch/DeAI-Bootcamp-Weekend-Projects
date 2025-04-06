@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
-import { useChat } from "@ai-sdk/react"
 
 const tones = [
   { value: "witty", label: "Witty", emoji: "🤣" },
@@ -36,8 +35,7 @@ export default function ContentGenerator() {
   const [language, setLanguage] = useState("english")
   const [tone, setTone] = useState("witty")
   const [creativityLevel, setCreativityLevel] = useState([5])
-
-  const { messages, handleSubmit, status, setInput } = useChat()
+  const [input, setInput] = useState("")
 
   useEffect(() => {
     setInput(`Create me a joke with the following context: ${context} in ${language} language with ${tone} tone and ${type} type. Creativity level: ${creativityLevel[0]}/10, Dont include any extra text, just deliver the joke nothing more.`)
@@ -136,28 +134,14 @@ export default function ContentGenerator() {
 
       <div className="flex justify-end">
         <Button
-          onClick={handleSubmit}
+          // onClick={handleSubmit}
           className="bg-indigo-600 hover:bg-indigo-700 text-white px-6"
-          disabled={status == "streaming"}
         >
           Generate ✨
         </Button>
       </div>
-      <div className="mt-6 p-4 bg-gray-50 rounded-lg border">
-        {messages
-          .filter(message => message.role === 'assistant')
-          .slice(-1)
-          .map(message => (
-            <div key={message.id} className="whitespace-pre-wrap">
-              {message.parts.map((part, i) => {
-                switch (part.type) {
-                  case 'text':
-                    return <div key={`${message.id}-${i}`}>{part.text}</div>;
-                }
-              })}
-            </div>
-          ))}
-      </div>
+      {/* <div className="mt-6 p-4 bg-gray-50 rounded-lg border">
+      </div> */}
     </div>
   )
 }
